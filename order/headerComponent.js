@@ -9,9 +9,9 @@ import {
 const TopComponent = ({name}) => {
     return (
         <View>
-            <View style={{flexDirection: 'row', borderBottomWidth: 3, paddingBottom: 5, paddingTop: 5}}>
-                <Text style={{fontSize: 15, color: 'black'}}> 拼到底价 </Text>
-                <Text style={{fontSize: 15, color: 'black'}}> {'|  ' + name} </Text>
+            <View style={styles.topComponentContainer}>
+                <Text style={styles.nameStyle}> 拼到底价 </Text>
+                <Text style={styles.nameStyle}> {'|  ' + name} </Text>
             </View>
         </View>
     )
@@ -20,11 +20,11 @@ const TopComponent = ({name}) => {
 const ContentView = ({rowData}) => {
     const {url, describe, originalPrice, currentPrice, count} = rowData;
     return (
-        <View style={{flexDirection: 'row', paddingTop: 10, paddingBottom: 10}}>
-            <Image style={{height: 50, width: 50, backgroundColor: 'yellow'}}/>
+        <View style={styles.contentContainer}>
+            <Image style={styles.imageStyle}/>
             <View style={{paddingLeft: 5, flex: 1}}>
                 <Text style={{fontSize: 14}}> {describe} </Text>
-                <View style={{flexDirection: 'row', marginTop: 10, alignItems: 'flex-end', flex: 1}}>
+                <View style={styles.priceContainer}>
                     <View style={{flexDirection: 'row', alignItems: 'flex-end', flex: 1}}>
                         <Text style={{fontSize: 18}}> {'￥' + currentPrice} </Text>
                         <Text style={{fontSize: 12, textDecorationLine: 'line-through'}}> {'￥' + originalPrice} </Text>
@@ -58,7 +58,33 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingLeft: 14,
         paddingRight: 14,
-    }
+    },
+    topComponentContainer: {
+        flexDirection: 'row',
+        borderBottomWidth: 3,
+        paddingBottom: 5,
+        paddingTop: 5,
+    },
+    contentContainer: {
+        flexDirection: 'row',
+        paddingTop: 10,
+        paddingBottom: 10,
+    },
+    priceContainer: {
+        flexDirection: 'row',
+        marginTop: 10,
+        alignItems: 'flex-end',
+        flex: 1
+    },
+    imageStyle: {
+        height: 50,
+        width: 50,
+        backgroundColor: 'yellow',
+    },
+    nameStyle: {
+        fontSize: 15,
+        color: 'black',
+    },
 })
 
 export default OrderHeader;

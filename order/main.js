@@ -4,31 +4,17 @@ import {
     View,
     Text,
     StyleSheet,
+    Dimensions,
 } from 'react-native';
 import OrderHeader from './headerComponent';
+import {
+    SectionHeader,
+    DescribelLabel,
+    Input, 
+    AddressSelect,
+    CommitButtom
+} from './customBusinessComponent';
 
-const SectionHeader = () => {
-    return (
-        <View style={{height: 10, backgroundColor: '#e9e9e9', borderColor: 'gray', borderTopWidth: 0.5, borderBottomWidth: 0.5}}/>
-    )
-}
-
-const DescribelLabel = () => {
-    return (
-        <Text style={{marginTop: 20, lineHeight: 17,marginLeft: 14, marginRight: 14, fontSize: 13, color: 'gray'}}>
-            本商品会通过快递寄送给您。若选择省、市时没有您所在的读取，说明快递无法配送。
-        </Text>
-    )
-}
-
-const TextInput1 = () => {
-    return (
-        <TextField
-            style={{marginTop: 20, height: 50,marginLeft: 14, marginRight: 14, borderWidth: 0.5, borderRadius: 5}}
-            placeholder='请输入收货人姓名'
-        />
-    )
-}
 class OrderPage extends Component {
     constructor(props) {
         super(props);
@@ -49,6 +35,11 @@ class OrderPage extends Component {
                     <OrderHeader rowData={rowData}/>
                     <SectionHeader />
                     <DescribelLabel />
+                    <Input placeholder='收货人'/>
+                    <Input placeholder='手机号'/>
+                    <AddressSelect />
+                    <Input placeholder='详细地址'/>
+                    <CommitButtom />
                 </ScrollView>
             </View>
         )

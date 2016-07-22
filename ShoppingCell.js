@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Touch from './Touch';
 import ShoppingItem from './ShoppingItem';
+import CustomButton from './CustomButton';
 
 class ShoppingCell extends Component {
     constructor(props) {
@@ -50,16 +51,18 @@ class ShoppingCell extends Component {
                         <Text style={[styles.textColor2, {fontSize: 20, marginLeft: 5}]}> {'￥' + rowData.pay} </Text>
                     </View>
                     <View style={{flexDirection: 'row', marginTop: 15}}>
-                        <Touch onPress={this._payAction}>
-                            <View style={styles.payButton}>
-                                <Text style={{color: 'white'}}> 继续支付 </Text>
-                            </View>
-                        </Touch>
-                        <Touch onPress={this._cancelAction}>
-                            <View style={styles.cancelButton}>
-                                <Text style={{color: 'black'}}> 取消订单 </Text>
-                            </View>
-                        </Touch>
+                        <CustomButton
+                            title='继续支付'
+                            viewStyle={styles.payButtonViewStyle}
+                            textStyle={styles.payButtonTextStyle}
+                            onPress={()=>{alert('111')}}
+                        />
+                        <CustomButton
+                            title='取消订单'
+                            viewStyle={styles.cancelButtonViewStyle}
+                            textStyle={styles.cancelButtonTextStyle}
+                            onPress={()=>{alert('111')}}
+                        />
                     </View>
                 </View>
             )
@@ -84,16 +87,20 @@ const styles = StyleSheet.create({
     textColor2: {
         color: '#5f5f5f',
     },
-    payButton: {
+    payButtonViewStyle: {
         height: 30,
         width: 100,
         marginLeft: 14,
-        backgroundColor: '#333333',
+        backgroundColor: '#28b6ea',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 15
     },
-    cancelButton: {
+    payButtonTextStyle: {
+        fontSize: 14,
+        color: 'white',
+    },
+    cancelButtonViewStyle: {
         height: 30,
         width: 100,
         marginLeft: 14,
@@ -101,7 +108,12 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 15
+        borderRadius: 15,
+        borderColor: '#28b6ea',
+    },
+    cancelButtonTextStyle: {
+        fontSize: 14,
+        color: '#28b6ea',
     },
 })
 
