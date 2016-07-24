@@ -34,6 +34,7 @@ const Input = ({placeholder}) => {
             onChangeText={(text) => {
             }}
             style={styles.inputStyle}
+            textInputStyle={{fontSize: 14}}
         />
     )
 }

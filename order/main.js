@@ -10,7 +10,7 @@ import OrderHeader from './headerComponent';
 import {
     SectionHeader,
     DescribelLabel,
-    Input, 
+    Input,
     AddressSelect,
     CommitButtom
 } from './customBusinessComponent';
@@ -31,7 +31,9 @@ class OrderPage extends Component {
         };
         return (
             <View style={styles.container}>
-                <ScrollView>
+                <ScrollView keyboardDismissMode='on-drag'
+                    keyboardShouldPersistTaps={true}
+                >
                     <OrderHeader rowData={rowData}/>
                     <SectionHeader />
                     <DescribelLabel />

@@ -6,6 +6,8 @@ import ScrollTabBar from './ScrollTabBar';
 import HomePage from './HomePage';
 import Touch from './Touch';
 import OrderPage from './order/main';
+import TextFieldDemo from './TestTextField';
+import ModalDemo from './ModalDemo';
 
 class ListViewDemo extends Component {
     constructor(props) {
@@ -18,6 +20,8 @@ class ListViewDemo extends Component {
             {component: HomePage, title: 'HomePage'},
             {component: ScrollTabBar, title: 'ScrollTabBar'},
             {component: OrderPage, title: 'OrderPage'},
+            {component: TextFieldDemo, title: 'TextField'},
+            {component: ModalDemo, title: 'ModalDemo'},
         ];
 
         this.state = {
