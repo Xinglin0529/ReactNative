@@ -1,6 +1,26 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, Image} from 'react-native';
 
+const TopTextContent = ({rowData}) => {
+    return (
+        <View style={styles.topTextContentContainer}>
+            <Text style={styles.topTextStyle}> {rowData.date} </Text>
+            <Text style={styles.topTextStyle}> {rowData.name} </Text>
+            <Text style={styles.topTextStyle}> {rowData.billNo} </Text>
+        </View>
+    )
+}
+
+const MiddleTextContent = ({rowData}) => {
+    return (
+        <View style={styles.middleTextContentContainer}>
+            <Text style={styles.middleTextStyle}> {'商品: ' + rowData.goods} </Text>
+            <Text style={styles.middleTextStyle}> {'价格: ' + rowData.price} </Text>
+            <Text style={styles.middleTextStyle}> {'数量: ' + rowData.count} </Text>
+        </View>
+    )
+}
+
 class ShoppingItem extends Component {
     constructor(props) {
         super(props);
@@ -15,15 +35,9 @@ class ShoppingItem extends Component {
                     <View style={styles.imageContainer}>
                         <Image/>
                     </View>
-                    <View style={styles.contentContainer}>
-                        <Text style={styles.textColor1}> {rowData.date} </Text>
-                        <Text style={styles.textColor1}> {rowData.name} </Text>
-                        <Text style={styles.textColor1}> {rowData.billNo} </Text>
-                    </View>
+                    <TopTextContent rowData={rowData}/>
                 </View>
-                <Text style={[styles.textColor1, {marginTop: 5,marginLeft: 14}]}> {'商品: ' + rowData.goods} </Text>
-                <Text style={[styles.textColor1, {marginLeft: 14}]}> {'价格: ' + rowData.price} </Text>
-                <Text style={[styles.textColor1, {marginLeft: 14, marginBottom: 14}]}> {'数量: ' + rowData.count} </Text>
+                <MiddleTextContent rowData={rowData}/>
             </View>
         )
     }
@@ -36,7 +50,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         height: 50,
-        width: 64,
+        width: 50,
         marginLeft: 14,
         backgroundColor: 'red',
     },
@@ -47,15 +61,26 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: '#c1c1c1',
     },
-    contentContainer: {
+    topTextContentContainer: {
         flexDirection: 'column',
         paddingLeft: 5,
         paddingRight: 14,
         flex: 1,
     },
-    textColor1: {
+    middleTextContentContainer: {
+        flexDirection: 'column',
+        paddingTop: 10,
+        paddingLeft: 14,
+        paddingRight: 14,
+        flex: 1,
+    },
+    topTextStyle: {
         color: '#a9a9a9',
         fontSize: 14,
+    },
+    middleTextStyle: {
+        color: '#a9a9a9',
+        fontSize: 16,
     },
 })
 

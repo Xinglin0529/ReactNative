@@ -10,6 +10,17 @@ import Touch from './Touch';
 import ShoppingItem from './ShoppingItem';
 import CustomButton from './CustomButton';
 
+const PhoneItem = () => {
+    return (
+        <View style={styles.phoneItemContainer}>
+            <Text style={{fontSize: 16, color: '#a9a9a9'}}> 客服电话：12345666 </Text>
+            <Touch onPress={()=>{}}>
+                <Image style={{width: 14, height: 14, backgroundColor: 'yellow'}}/>
+            </Touch>
+        </View>
+    )
+}
+
 class ShoppingCell extends Component {
     constructor(props) {
         super(props);
@@ -32,23 +43,29 @@ class ShoppingCell extends Component {
     _statusComponent(rowData) {
         if (rowData.status == 2) {
             return (
-                <Text style={[styles.textColor2, {paddingLeft: 15}]}>
-                订单已失效
-                </Text>
+                <View style={styles.paddingContainer}>
+                    <PhoneItem />
+                    <Text style={{fontSize: 18, color: '#5f5f5f'}}> 订单已失效 </Text>
+                </View>
             )
         } else if(rowData.status == 1){
             return (
-                <View style={{paddingLeft: 15, flexDirection: 'row', alignItems:'flex-end'}}>
-                    <Text style={[styles.textColor2, {fontSize: 16}]}> 已付: </Text>
-                    <Text style={[styles.textColor2, {fontSize: 20, marginLeft: 5}]}> {'￥' + rowData.pay} </Text>
+                <View style={styles.paddingContainer}>
+                    <Text style={{fontSize: 16, color: '#a9a9a9'}}> {'物流信息：' + '快递公司' + '单号12313131'} </Text>
+                    <PhoneItem />
+                    <View style={{flexDirection: 'row', alignItems:'flex-end'}}>
+                        <Text style={[styles.payTextColor, {fontSize: 16}]}> 已付: </Text>
+                        <Text style={[styles.payTextColor, {fontSize: 20, marginLeft: 5}]}> {'￥' + rowData.pay} </Text>
+                    </View>
                 </View>
             )
         } else {
             return (
-                <View>
-                    <View style={{paddingLeft: 15, flexDirection: 'row', alignItems: 'flex-end'}}>
-                        <Text style={[styles.textColor2, {fontSize: 16}]}> 已付: </Text>
-                        <Text style={[styles.textColor2, {fontSize: 20, marginLeft: 5}]}> {'￥' + rowData.pay} </Text>
+                <View style={styles.paddingContainer}>
+                    <PhoneItem />
+                    <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Text style={[styles.payTextColor, {fontSize: 16}]}> 待付: </Text>
+                        <Text style={[styles.payTextColor, {fontSize: 20, marginLeft: 5}]}> {'￥' + rowData.pay} </Text>
                     </View>
                     <View style={{flexDirection: 'row', marginTop: 15}}>
                         <CustomButton
@@ -81,16 +98,14 @@ class ShoppingCell extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         paddingBottom: 14,
     },
-    textColor2: {
+    payTextColor: {
         color: '#5f5f5f',
     },
     payButtonViewStyle: {
         height: 30,
         width: 100,
-        marginLeft: 14,
         backgroundColor: '#28b6ea',
         alignItems: 'center',
         justifyContent: 'center',
@@ -114,6 +129,15 @@ const styles = StyleSheet.create({
     cancelButtonTextStyle: {
         fontSize: 14,
         color: '#28b6ea',
+    },
+    paddingContainer: {
+        paddingLeft: 14,
+        paddingRight: 14,
+    },
+    phoneItemContainer: {
+        flexDirection: 'row',
+        paddingBottom: 10,
+        alignItems: 'center',
     },
 })
 
