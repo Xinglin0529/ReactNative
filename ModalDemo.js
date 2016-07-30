@@ -8,11 +8,13 @@ import {
     View,
     Dimensions,
     Animated,
-    Easing
+    Easing,
+    Picker,
 } from 'react-native';
 
 import CustomButton from './CustomButton';
 import Touch from './Touch';
+import YZTOrderPicker from './YZTOrderPicker';
 
 const _window = Dimensions.get('window');
 
@@ -27,6 +29,31 @@ var animatedSequence; //顺序执行
 var animatedParallel; //同时执行
 var animatedStagger;  //错位执行
 
+/**
+ * <Modal
+ animationType="fade"
+ transparent={true}
+ visible={this.state.isShow}
+ onRequestClose={() => {this._closeModal()}}
+ >
+ <Touch onPress={()=>this._closeModal()}>
+ <Animated.View
+ style={{flex: 1,
+                                height: _window.height,
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+ >
+ <View style={{width: 200, height: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
+ <Text> Hello World </Text>
+ <Text> Hello World</Text>
+ </View>
+ </Animated.View>
+ </Touch>
+ </Modal>
+ */
+
 class ModalDemo extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +64,7 @@ class ModalDemo extends Component {
             rotate: new Animated.Value(0),
             translateValue: new Animated.ValueXY({x: 0, y: 0}),
             left: new Animated.Value(0),
+            language:'',
         }
 
         //显现动画
@@ -133,6 +161,9 @@ class ModalDemo extends Component {
     }
 
     render() {
+
+        const list = ['oc', 'js', 'swift', 'java'];
+        const selected = 'swift';
         return (
             <View style={styles.container}>
                 <CustomButton
@@ -154,10 +185,23 @@ class ModalDemo extends Component {
                         {translateY:this.state.translateValue.y},
                     ],
                 }}/>
+                <YZTOrderPicker
+                    visible={this.state.isShow}
+                    itemList={list}
+                    selectedValue={selected}
+                    onConfirmClick={(value)=>{
+                        alert(value)
+                        this._closeModal();
+                    }}
+                    onCancelClick={()=>{
+                        this._closeModal();
+                    }}
+                />
+                
                 <Modal
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.isShow}
+                    visible={false}
                     onRequestClose={() => {this._closeModal()}}
                 >
                     <Touch onPress={()=>this._closeModal()}>

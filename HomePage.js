@@ -4,12 +4,16 @@ import ShoppingList from './ShoppingList';
 import ScrollTabBar from './ScrollTabBar';
 import Touch from './Touch';
 import SwiperContainer from './home/swipeContainer';
+import AnimatedTextInput from './order/customTextInput';
 
 const _window = Dimensions.get('window');
 class HomePage extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isValid: true,
+        }
     }
 
     _ads() {
@@ -39,9 +43,21 @@ class HomePage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ScrollView >
-                    {this._swipesContainer()}
-                </ScrollView>
+            <AnimatedTextInput
+                ref='userNameInput'
+                style={{marginLeft: 14, marginRight: 14, height: 44}}
+                placeholder='用户名'
+                fontSize={16}
+                onChangeText={(text) => {
+                    if ([...text].length > 5) {
+                        this.refs.userNameInput.updateTextInputStyle(false);
+                    } else {
+                        this.refs.userNameInput.updateTextInputStyle(true);
+                    }
+                    console.log(text);
+                }}
+                clearButtonMode='while-editing'
+            />
             </View>
         )
     }
@@ -49,6 +65,7 @@ class HomePage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: 100,
     }
 })
 export default HomePage;

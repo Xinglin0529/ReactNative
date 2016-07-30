@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Dimensions,
 } from 'react-native';
-import CustomInput from './customTextInput';
+import AnimatedTextInput from './customTextInput';
 import SelectButton from './customSelectButton';
 import CustomButton from '../CustomButton';
 
@@ -28,17 +28,18 @@ const DescribelLabel = () => {
 
 const Input = ({placeholder}) => {
     return (
-        <CustomInput
+        <AnimatedTextInput
+            style={{marginLeft: 14, marginRight: 14, height: 44, marginTop: 20}}
             placeholder={placeholder}
-            clearButtonMode='while-editing'
+            fontSize={16}
             onChangeText={(text) => {
+                console.log(text);
             }}
-            style={styles.inputStyle}
-            textInputStyle={{fontSize: 14}}
+            clearButtonMode='while-editing'
         />
     )
 }
-const AddressSelect = () => {
+const AddressSelect = ({onClickAt}) => {
     let defaultTexts = ['省', '市', '区/县'];
     let buttons = [];
     defaultTexts.forEach((text) => {
@@ -49,7 +50,7 @@ const AddressSelect = () => {
                 text=''
                 style={{width: 80, height: 44}}
                 onPress={() => {
-                    alert('选择: ' + text);
+                    onClickAt && onClickAt(text);
                 }}
             />
         ))

@@ -77,7 +77,9 @@ class ShoppingList extends Component {
         } else if (status == 2) {
             row = [rowDefault2, rowDefault2, rowDefault2, rowDefault2, rowDefault2];
         }
-        this.state.dataSource = ds.cloneWithRows(row);
+        this.setState({
+            dataSource: ds.cloneWithRows(row),
+        })
     }
 
     _changeRefreshStatus(status) {

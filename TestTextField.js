@@ -5,31 +5,91 @@ import {
     Image,
     StyleSheet,
     TextInput,
-    Modal
+    Modal,
+    Animated,
+    Easing
 } from 'react-native';
-import CustomInput from './order/customTextInput';
 import Touch from './Touch';
+
+var beginAnimatedMove;
+var beginAnimatedScale;
+var beginAnimatedParallel;
+
+var endAnimatedMove;
+var endAnimatedScale;
+var endAnimatedParallel;
+
+const TextInputLeftMargin = 10;
+const FirstResponder = 'firstResponder';
 
 class TextFieldDemo extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isRight: true,
-            isOpen: false,
+            isValid: true,
+            translateValue: new Animated.ValueXY({x: 0, y: 0}),
+            scaleValue: new Animated.Value(1),
+            text: '',
         }
+        const text = '输入输入输入输入...';
+        const originX = [...text].length * 15 * 0.1;
+        beginAnimatedMove = Animated.timing(
+            this.state.translateValue, {
+                toValue:{x: -originX, y: -27},
+                duration: 200,
+                easing: Easing.linear,
+            }
+        );
+
+        beginAnimatedScale = Animated.timing(
+            this.state.scaleValue,{
+                toValue: 0.8,
+                duration: 200,
+                easing: Easing.linear,
+            }
+        );
+        beginAnimatedParallel = Animated.parallel(
+            [
+                beginAnimatedMove,
+                beginAnimatedScale
+            ],{stopTogether: true},
+        );
+
+        endAnimatedMove = Animated.timing(
+            this.state.translateValue, {
+                toValue:{x: 0, y: 0},
+                duration: 200,
+                easing: Easing.linear,
+            }
+        );
+
+        endAnimatedScale = Animated.timing(
+            this.state.scaleValue,{
+                toValue: 1,
+                duration: 200,
+                easing: Easing.linear,
+            }
+        );
+        endAnimatedParallel = Animated.parallel(
+            [
+                endAnimatedMove,
+                endAnimatedScale
+            ],{stopTogether: true},
+        );
     }
 
-    _checkStatus(text) {
+    _checkTextIsValid(text) {
+        this.setState({text: text});
         if ([...text].length > 10) {
-            this.setState({isRight: false});
+            this.setState({isValid: false});
         } else {
-            this.setState({isRight: true});
+            this.setState({isValid: true});
         }
     }
 
-    _errorButton() {
-        if (this.state.isRight === false) {
+    _showErrorButton() {
+        if (this.state.isValid === false) {
             return (
                 <Touch onPress={()=>{this._openModal()}}>
                     <Image style={{width: 12, height: 12, backgroundColor: 'red'}}/>
@@ -39,49 +99,88 @@ class TextFieldDemo extends Component {
         return (<View/>)
     }
 
-    _openModal() {
-        this.setState({isOpen: true});
+    _autoFocus() {
+        this.refs.firstResponder.focus();
     }
 
-    _closeModal() {
-        this.setState({isOpen: false});
+    _animate(isStart) {
+        if (isStart) {
+            beginAnimatedParallel.start();
+        } else {
+            endAnimatedParallel.start();
+        }
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={{flex: 1, fontSize: 15}}
-                        keyboardType='numeric'
-                        clearButtonMode='while-editing'
-                        placeholder='输入...'
-                        onChangeText={(text) => this._checkStatus(text)}
-                    />
-                    {this._errorButton()}
+                <View
+                    style={{height: 44,
+                            marginLeft: 14,
+                            marginRight: 14,
+                    }}
+                >
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={FirstResponder}
+                            style={[{flex: 1}, {fontSize: 15, height: 44}]}
+                            keyboardType='default'
+                            clearButtonMode='while-editing'
+                            onChangeText={(text) => this._checkTextIsValid(text)}
+                            onFocus={()=>this._animate(true)}
+                            onBlur={()=>{
+                                if ([...this.state.text].length > 0) {
+                                    return;
+                                }
+                                this._animate(false)
+                            }}
+                        />
+                        {this._showErrorButton()}
+                    </View>
+                    <Animated.View
+                        style={[styles.animateContainer,
+                               {transform: [{scale:this.state.scaleValue},
+                                            {translateX:this.state.translateValue.x},
+                                            {translateY:this.state.translateValue.y}]
+                              }]}
+                    >
+                        <Text
+                            style={[styles.placeholderStyle, {fontSize: 15}]}
+                            onPress={()=>this._autoFocus()}
+                        >
+                            输入输入输入输入...
+                        </Text>
+                    </Animated.View>
                 </View>
             </View>
         )
-
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 64,
+        flex: 1,
         justifyContent: 'center',
     },
     inputContainer: {
         flexDirection: 'row',
-        paddingLeft: 5,
-        paddingRight: 5,
+        paddingLeft: TextInputLeftMargin,
+        paddingRight: TextInputLeftMargin,
         height: 44,
+        justifyContent: 'space-around',
         borderWidth: 1,
         borderRadius: 5,
-        marginLeft: 14,
-        marginRight: 14,
-        justifyContent: 'space-around',
         alignItems: 'center',
+    },
+    animateContainer: {
+        justifyContent: 'center',
+        position: 'absolute',
+        height: 44,
+        top: 0,
+        left: TextInputLeftMargin,
+    },
+    placeholderStyle: {
+        color: 'gray',
     },
 })
 
